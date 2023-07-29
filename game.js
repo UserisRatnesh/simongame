@@ -1,4 +1,4 @@
-
+// addinidwif
 // GIven colors of button available.
 var buttonColor = ["red","blue","green","yellow"];
 
