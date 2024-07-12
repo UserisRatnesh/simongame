@@ -48,13 +48,66 @@ var userClickedPattern = [];
 
 // user Clicked button sequence.
 $(".btn").click(function () {
+
     var userChosenColor = $(this).attr("id");
     userClickedPattern.push(userChosenColor);
     // console.log(userClickedPattern);
     playSound(userChosenColor);
     animate(userChosenColor);
-    checkAnswer(userClickedPattern.length - 1);
+    checkAnswer(userClickedPattern.length - 1); // After every click check is performed
 });
+
+$(document).keydown((event) => {
+
+    var key = event.key;
+    var userChosenColor = push(key, userClickedPattern);
+
+    if (userChosenColor && start) {
+        playSound(userChosenColor);
+        animate(userChosenColor);
+        checkAnswer(userClickedPattern.length - 1); // After every click check is performed
+    }
+    // Now it only triggers wrong ans sound when key pressed belongs to alphabets only
+    else if (start && /^[a-zA-Z]$/.test(key)) {
+        // wrong key pressed
+        // play error sound.
+        playSound("wrong");
+        // animate complete body with red.
+        $("body").addClass("game-over");
+        // pop game over .
+        $("#level-title").text("Game Over, Press Start button to start the Game Again");
+        setTimeout(function () {
+            $("body").removeClass("game-over");
+        }, 1000);
+        $(".start-btn").slideDown();
+        startOver();
+        // define any key to restart the game. 
+    }
+})
+
+function push(key, userClickedPattern) {
+    var userChosenColor = null;
+
+    switch (key) {
+        case "r":
+            userChosenColor = "red";
+            break;
+        case "g":
+            userChosenColor = "green";
+            break;
+        case "b":
+            userChosenColor = "blue";
+            break;
+        case "y":
+            userChosenColor = "yellow";
+            break;
+        default:
+            return null; // return null for invalid keys
+    }
+
+    userClickedPattern.push(userChosenColor);
+    return userChosenColor;
+}
 
 
 //Check answer function.
@@ -94,16 +147,29 @@ function checkAnswer(currentLevel) {
 // taking track if game started or not.and starting the game.
 var start = false;
 $(".start-btn").click(function () {
+    startGame();
+});
 
+$(document).keydown((event) => {
+    var key = event.key;
+    if (start) return;
+    if (key === "Enter") {
+        startGame();
+    }
+})
+
+function startGame() {
     if (!start) {
 
         $("h1").text("level " + level);
-        nextSequence();
 
         start = true;
         $(".start-btn").slideUp();
+        setTimeout(() => {
+            nextSequence();
+        }, 1000);
     }
-});
+}
 
 // restart function.
 function startOver() {
