@@ -75,7 +75,7 @@ $(document).keydown((event) => {
         // animate complete body with red.
         $("body").addClass("game-over");
         // pop game over .
-        $("#level-title").text("Game Over, Press Start button to start the Game Again");
+        $("#level-title").html('<span>Game Over,</span> Press <span>Start button</span> or <span>Enter</span> to start the Game Again');
         setTimeout(function () {
             $("body").removeClass("game-over");
         }, 1000);
@@ -132,7 +132,7 @@ function checkAnswer(currentLevel) {
         // animate complete body with red.
         $("body").addClass("game-over");
         // pop game over .
-        $("#level-title").text("Game Over, Press Start button to start the Game Again");
+        $("#level-title").html('<span>Game Over,</span> Press <span>Start button</span> or <span>Enter</span> to start the Game Again');
         setTimeout(function () {
             $("body").removeClass("game-over");
         }, 1000);
